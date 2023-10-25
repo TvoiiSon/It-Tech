@@ -5,8 +5,6 @@ if(empty($id)) {
     $_SESSION['errLogin'] = "Авторизуйтесь!";
     header("Location: ./login.php");
 }
-
-require_once("./db/db.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
