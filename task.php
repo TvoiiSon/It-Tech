@@ -24,26 +24,33 @@ $select_task = mysqli_fetch_assoc($select_task);
     <p>Название задачи/проекта - <strong><?= $select_task['task_name'] ?></strong></p>
     <p>Описание задачи/проекта: <?= $select_task['task_description'] ?></p>
     <p>Дата сдачи задачи: <strong><?= $select_task['due_date'] ?></strong></p>
-    <p>Приоритет задачи: <?= $select_task['priority'] ?></p>
-    <p>Участники</p>
+    <p>Приоритет задачи: <strong><?= $select_task['priority'] ?></strong></p>
     <?php 
     $id_participant_array = $select_task['id_participant'] ? explode(", ", $select_task['id_participant']) : array(); 
     if (count($id_participant_array) == 0) { ?>
         <p><strong>Участников нет</strong></p>
     <?php } ?>
-    <ul>
-        <?php foreach ($id_participant_array as $id) { 
+    <?php if (count($id_participant_array) != 0) {
+        foreach ($id_participant_array as $id) { 
             $select_participant = mysqli_query($connect, "SELECT * FROM `users` WHERE `id`='$id'");
-            $select_participant = mysqli_fetch_assoc($select_participant); ?>
-            <li>Участник: <?= $select_participant['login'] ?></li>
-        <?php } ?>
-    </ul>
+            $select_participant = mysqli_fetch_assoc($select_participant);
+        }
+    } ?>
+    <?php if (count($id_participant_array) != 0) { ?>
+        <p>Участник: <strong><?= $select_participant['login'] ?></strong></p>
+    <?php } ?>
+    
     <p>Статус: <strong><?= $select_task['status'] ?></strong></p>
-    <p>Привязать участника задачи/проекта</p>
+
+    <?php if($select_task["comment"] != NULL) {?>
+        <p>Комментарий: <?= $select_task["comment"]; ?></p>
+    <?php } ?>
+    <br><br>
+    <p>Привязать участника для выполнения задачи/проекта</p>
     <form action="./vendor/vendor_link_participant.php" method="post">
         <input type="hidden" name="id_task" value="<?= $select_task['id'] ?>">
         <input type="text" name="login" placeholder="Логин участника" required>
-        <input type="submit" value="Отправить заявку на привязку">
+        <input type="submit" value="Привязать">
     </form>
 </body>
 </html>

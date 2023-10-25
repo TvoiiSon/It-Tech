@@ -7,11 +7,15 @@ if(empty($id)) {
 }
 
 require_once("./db/db.php");
+// require_once("./vendor/vendor_get_task.php");
 
 $select_users = mysqli_query($connect, "SELECT * FROM `users` WHERE `role` = '2'");
 $select_users = mysqli_fetch_all($select_users);
 
-$select_tasks = mysqli_query($connect, "SELECT * FROM `tasks` WHERE `id_owner` = '$id'");
+$select_category = mysqli_query($connect,"SELECT * FROM `category`");
+$select_category = mysqli_fetch_all($select_category);
+
+$select_tasks = mysqli_query($connect, "SELECT * FROM `tasks` WHERE `id_owner` = '$id' ORDER BY `id` DESC");
 $select_tasks = mysqli_fetch_all($select_tasks);
 
 $select_working_tasks = mysqli_query($connect, "SELECT * FROM `tasks` WHERE `id_participant`='$id' AND `status`!='Выполнено'");
@@ -23,6 +27,7 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <title>Главная</title>
 </head>
 <body>
@@ -56,6 +61,12 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
             <textarea name="task_description"cols="30" rows="10" placeholder="Описание задачи/проекта" required></textarea>
             <label for="due_date">Срок выполнения</label>
             <input type="date" name="due_date" required>
+            
+            <select name="category">
+                <?php foreach($select_category as $category) { ?>
+                    <option value="<?= $category[0] ?>"><?= $category[1] ?></option>
+                <?php } ?>
+            </select>
             <div>
                 <p>Приоритет задачи/проекта</p>
                 <div>
@@ -88,7 +99,14 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
         <ul>
             <?php foreach($select_tasks as $task) { ?>
                 <li>
-                    <span><?= $task[2] ?></span><br>
+                    <p><?= $task[2] ?></p>
+                    <?php if($task[8] == "Выполнено") { 
+                        $id_executor = $task[7];
+                        $select_executor = mysqli_query($connect,"SELECT * FROM `users` WHERE `id`='$id_executor'");
+                        $select_tasks = mysqli_fetch_assoc($select_executor); 
+                        ?>
+                        <p>Выполнил: <strong><?= $select_tasks['login'] ?></strong></p>
+                    <?php } ?>
                     <a href="./task.php?id=<?= $task[0] ?>">Перейти к задаче/проекту</a>
                 </li>
                 <br>
@@ -105,5 +123,24 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
         </ul>
         
     <?php } ?>
+
+    <script>
+        $.ajax({
+        url: './vendor/vendor_get_task.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            data.forEach(function(task) {
+                var dueDate = new Date(task.due_date);
+                var currentDate = new Date();
+
+                var timeDifference = dueDate - currentDate;
+                if (timeDifference > 0) {
+                    alert(task.task_name + ' должна быть сдана в течение 2 дней!');
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>
