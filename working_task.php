@@ -10,6 +10,9 @@ require_once("./db/db.php");
 $id_task = $_GET['id'];
 $select_task = mysqli_query($connect, "SELECT * FROM `tasks` WHERE `id` = '$id_task'");
 $select_task = mysqli_fetch_assoc($select_task);
+
+$select_comments = mysqli_query($connect, "SELECT * FROM `comments` WHERE `id_task` = '$id_task'");
+$select_comments = mysqli_fetch_all($select_comments);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,6 +66,32 @@ $select_task = mysqli_fetch_assoc($select_task);
     <?php } ?>
     <?php if($select_task["status"] != "Отложено") { ?>
         <a href="./vendor/vendor_change_status_task.php?id=<?= $id_task ?>&status=Отложено">Отложить</a>
+    <?php } ?>
+
+    <br>
+    <br>
+
+    <form action="./vendor/vendor_create_comment.php" enctype="multipart/form-data" method="post" style="display: flex; flex-direction: column; gap: 15px; width: 350px;">
+        <input type="hidden" name="id_task" value="<?= $id_task ?>">
+        <textarea name="comment_text" cols="30" rows="10"></textarea>
+        <input type="file" name="pathimg">
+        <input type="submit" value="Оставить Комментарий">
+    </form>
+
+    <h3>Комментарии</h3>
+    <?php foreach($select_comments as $comment) {
+        $id_sender = $comment[2];
+        $select_sender = mysqli_query($connect, "SELECT * FROM `users` WHERE `id` = '$id_sender'");
+        $select_sender = mysqli_fetch_assoc($select_sender); ?>
+        <ul>
+            <li>Автор: <?= $select_sender['login'] ?></li>
+            <?php if($comment[3] != '') { ?>
+                <li>Текст: <?= $comment[3] ?></li>
+            <?php } ?>
+            <?php if($comment[4] != '') { ?>
+                <li><a href="http://localhost/It-Tech/<?= $comment[4] ?>">Открыть картинку</a></li>
+            <?php } ?>
+        </ul>
     <?php } ?>
 </body>
 </html>
