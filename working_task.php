@@ -24,7 +24,16 @@ $select_task = mysqli_fetch_assoc($select_task);
     <h2>Работа над задачей/проектом - <?= $select_task['task_name'] ?></h2>
     <p>Название задачи/проекта - <strong><?= $select_task['task_name'] ?></strong></p>
     <p>Описание задачи/проекта: <?= $select_task['task_description'] ?></p>
-    <p>Дата сдачи задачи: <strong><?= $select_task['due_date'] ?></strong></p>
+    <?php 
+    if (($select_task['start_date'] != "0000-00-00") && ($select_task['due_date'] != "0000-00-00")) { ?>
+        <p>Дата начала задачи: <strong><?= $select_task['start_date'] ?></strong></p>
+        <p>Дата начала задачи: <strong><?= $select_task['due_date'] ?></strong></p>
+    <?php } elseif ($select_task['start_date'] != "0000-00-00") { ?>
+        <p>Дата сдачи задачи: <strong><?= $select_task['start_date'] ?></strong></p>
+    <?php } else { ?>
+        <p>Дата начала или сдачи задачи/проекта не указана</p>
+    <?php } ?>
+
     <p>Приоритет задачи: <?= $select_task['priority'] ?></p>
     <p>Статус: <strong><?= $select_task['status'] ?></strong></p>
     <?php 

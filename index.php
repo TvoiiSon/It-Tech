@@ -7,7 +7,6 @@ if(empty($id)) {
 }
 
 require_once("./db/db.php");
-// require_once("./vendor/vendor_get_task.php");
 
 $select_users = mysqli_query($connect, "SELECT * FROM `users` WHERE `role` = '2'");
 $select_users = mysqli_fetch_all($select_users);
@@ -18,7 +17,7 @@ $select_category = mysqli_fetch_all($select_category);
 $select_tasks = mysqli_query($connect, "SELECT * FROM `tasks` WHERE `id_owner` = '$id' ORDER BY `id` DESC");
 $select_tasks = mysqli_fetch_all($select_tasks);
 
-$select_working_tasks = mysqli_query($connect, "SELECT * FROM `tasks` WHERE `id_participant`='$id' AND `status`!='Выполнено'");
+$select_working_tasks = mysqli_query($connect, "SELECT * FROM `tasks` WHERE `id_participant`='$id' AND `status`!='Выполнено' ORDER BY `priority` DESC");
 $select_working_tasks = mysqli_fetch_all($select_working_tasks);
 ?>
 <!DOCTYPE html>
@@ -55,13 +54,30 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
         </ul>
     <?php } ?>
     <?php if($_COOKIE['role'] == 2){ ?>
+        <br>
+        <a href="./generate_report.php">Сформировать отчет</a>
         <h2>Создать задачу/проект</h2>
         <form action="./vendor/vendor_create_task.php" method="post" style="display: flex; flex-direction: column; width: 350px; gap: 15px;">
             <input type="text" name="task_name" placeholder="Название задачи/проекта" required>
             <textarea name="task_description"cols="30" rows="10" placeholder="Описание задачи/проекта" required></textarea>
-            <label for="due_date">Срок выполнения</label>
-            <input type="date" name="due_date" required>
-            
+            <div>
+                <input type="radio" id="form1" name="work_type" value="once">
+                <label for="form1">Разовая работа</label>
+                <br>
+                <input type="radio" id="form2" name="work_type" value="continuous">
+                <label for="form2">Продолжительная работа</label>
+            </div>
+            <div id="once_calendar" style="display: none">
+                <label for="single_date_start">Дата начала</label>
+                <input type="date" name="single_date_start">
+            </div>
+            <div id="continuous_calendar" style="display: none">
+                <label for="start_date">Срок начала выполнения</label>
+                <input type="date" name="start_date">
+                <br>
+                <label for="due_date">Срок конца выполнения</label>
+                <input type="date" name="due_date">
+            </div>
             <select name="category">
                 <?php foreach($select_category as $category) { ?>
                     <option value="<?= $category[0] ?>"><?= $category[1] ?></option>
@@ -117,7 +133,7 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
         <ul>
             <?php foreach($select_working_tasks as $task) { ?> 
                 <li>
-                    <a href="./working_task.php?id=<?= $task[0] ?>"><?= $task[2] ?></a>
+                    <a href="./working_task.php?id=<?= $task[0] ?>"><?= $task[2] ?></a><br>
                 </li>
             <?php } ?>
         </ul>
@@ -130,6 +146,7 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
         method: 'GET',
         dataType: 'json',
         success: function(data) {
+            console.log(data)
             data.forEach(function(task) {
                 var dueDate = new Date(task.due_date);
                 var currentDate = new Date();
@@ -140,7 +157,8 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
                 }
             });
         }
-    });
+        });
     </script>
+    <script src="./scripts/main.js"></script>
 </body>
 </html>
