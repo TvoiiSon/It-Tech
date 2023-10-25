@@ -17,7 +17,7 @@ $select_category = mysqli_fetch_all($select_category);
 $select_tasks = mysqli_query($connect, "SELECT * FROM `tasks` WHERE `id_owner` = '$id' ORDER BY `id` DESC");
 $select_tasks = mysqli_fetch_all($select_tasks);
 
-$select_working_tasks = mysqli_query($connect, "SELECT * FROM `tasks` WHERE `id_participant`='$id' AND `status`!='Выполнено' ORDER BY `priority` DESC");
+$select_working_tasks = mysqli_query($connect, "SELECT * FROM `tasks` WHERE FIND_IN_SET('$id', REPLACE(`id_participant`, ' ', '')) AND `status`!='Выполнено' ORDER BY `priority` DESC");
 $select_working_tasks = mysqli_fetch_all($select_working_tasks);
 ?>
 <!DOCTYPE html>

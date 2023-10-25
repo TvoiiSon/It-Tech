@@ -37,15 +37,23 @@ $select_task = mysqli_fetch_assoc($select_task);
     $id_participant_array = $select_task['id_participant'] ? explode(", ", $select_task['id_participant']) : array(); 
     if (count($id_participant_array) == 0) { ?>
         <p><strong>Участников нет</strong></p>
-    <?php } ?>
-    <?php if (count($id_participant_array) != 0) {
-        foreach ($id_participant_array as $id) { 
-            $select_participant = mysqli_query($connect, "SELECT * FROM `users` WHERE `id`='$id'");
-            $select_participant = mysqli_fetch_assoc($select_participant);
-        }
-    } ?>
-    <?php if (count($id_participant_array) != 0) { ?>
+    <?php } else if (count($id_participant_array) == 1) {
+        $select_participant = mysqli_query($connect, "SELECT * FROM `users` WHERE `id`='$id_participant_array[0]'");
+        $select_participant = mysqli_fetch_assoc($select_participant);
+    ?>
         <p>Участник: <strong><?= $select_participant['login'] ?></strong></p>
+    <?php } else { ?>
+        <p>Участники: 
+        <?php 
+            $participant_names = array();
+            foreach ($id_participant_array as $id) {
+                $select_participant = mysqli_query($connect, "SELECT * FROM `users` WHERE `id`='$id'");
+                $select_participant = mysqli_fetch_assoc($select_participant);
+                $participant_names[] = $select_participant['login'];
+            }
+            echo "<strong>" . implode(", ", $participant_names) . "</strong>";
+        ?>
+        </p>
     <?php } ?>
     
     <p>Статус: <strong><?= $select_task['status'] ?></strong></p>

@@ -63,6 +63,7 @@ $select_complite_tasks = mysqli_fetch_all($select_complite_tasks);
     <canvas id="myChart" width="400" height="100"></canvas>
     <script>
         var dataFromPHP = <?php echo json_encode($select_complite_tasks); ?>;
+        console.log(dataFromPHP);
         var canvas = document.getElementById('myChart');
         var ctx = canvas.getContext('2d');
         var months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
@@ -79,6 +80,7 @@ $select_complite_tasks = mysqli_fetch_all($select_complite_tasks);
             });
             completedTasksData.push(monthTasks.length);
         }
+        console.log(completedTasksData);
         var data = {
             labels: labels,
             datasets: [{
