@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Окт 25 2023 г., 18:08
+-- Время создания: Окт 25 2023 г., 22:23
 -- Версия сервера: 10.4.28-MariaDB
 -- Версия PHP: 8.2.4
 
@@ -52,7 +52,8 @@ CREATE TABLE `tasks` (
   `id_owner` int(11) NOT NULL,
   `task_name` text NOT NULL,
   `task_description` text NOT NULL,
-  `due_date` date NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
   `category` int(11) NOT NULL,
   `priority` int(11) NOT NULL,
   `id_participant` text DEFAULT NULL,
@@ -64,11 +65,10 @@ CREATE TABLE `tasks` (
 -- Дамп данных таблицы `tasks`
 --
 
-INSERT INTO `tasks` (`id`, `id_owner`, `task_name`, `task_description`, `due_date`, `category`, `priority`, `id_participant`, `status`, `comment`) VALUES
-(1, 2, 'Задача 1', 'Описание Задачи 1', '2023-10-26', 0, 6, '2', 'Выполнено', 'Комментарий к задаче/проекту'),
-(2, 2, 'Задача 2', 'Описание Задачи 2', '2023-10-31', 0, 3, '3', 'Выполнено', NULL),
-(3, 2, 'Задача 3', 'Описание Задачи 3', '2023-11-03', 3, 10, NULL, 'Только создано', NULL),
-(4, 2, 'Задача 4', 'описание к Задаче 4', '2023-11-05', 2, 10, NULL, 'Только создано', NULL);
+INSERT INTO `tasks` (`id`, `id_owner`, `task_name`, `task_description`, `start_date`, `due_date`, `category`, `priority`, `id_participant`, `status`, `comment`) VALUES
+(7, 2, 'Разовая Задача 1', 'Описание разовой задачи 1', '2023-10-26', '0000-00-00', 2, 10, '2', 'Только создано', NULL),
+(8, 2, 'Продолжительная Задача 2', 'Описание продолжительной задачи 2', '2023-11-25', '2023-11-26', 1, 10, '4', 'Выполнено', NULL),
+(9, 2, 'Разовая Задача 2', 'Описание разовой задачи 2', '2023-10-27', '2023-10-27', 3, 10, '2', 'Только создано', NULL);
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `role`, `id_group`, `login`, `password`, `email`) VALUES
 (1, 1, 0, 'admin', '$2y$10$Av7FolnonbzmzV7M5MmR.u9YqcfDj/W/l9LXu2aedQsemZjbKSM.6', 'admin@admin'),
 (2, 2, 0, 'user1', '$2y$10$zZhO1dt2Xxf5O33ICQ/7YeeFIE7iD/cgISvrXO51hTSJfEhrytLNW', 'user1@user1'),
-(3, 2, 0, 'user2', '$2y$10$34rcJMRTmOBuvrEUCOBfq.VrL6XtEsD/vpQ9e..Q4NSp6ponrtg4O', 'user2@user2');
+(3, 2, 0, 'user2', '$2y$10$34rcJMRTmOBuvrEUCOBfq.VrL6XtEsD/vpQ9e..Q4NSp6ponrtg4O', 'user2@user2'),
+(4, 2, 0, 'user3', '$2y$10$9XLkwC5gkFSMvjAo8ADb7ulS8ybjbQRZfpQ.XL31bVhIhmC8B/f9S', 'user3@user3');
 
 --
 -- Индексы сохранённых таблиц
@@ -130,13 +131,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT для таблицы `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
