@@ -14,7 +14,7 @@ $select_user = mysqli_query($connect, "SELECT `id` FROM `users` WHERE `login` = 
 $select_user = mysqli_fetch_assoc($select_user);
 
 if(empty($select_user)) {
-    header("Location: " . $_SERVER['HTTP_REFERER']);
+    echo "error";
 } else {
     $select_id_participant = mysqli_query($connect, "SELECT `id_participant` FROM `tasks` WHERE `id` = '$id_task'");
     $select_id_participant = mysqli_fetch_assoc($select_id_participant);
@@ -26,7 +26,11 @@ if(empty($select_user)) {
     }
 
     mysqli_query($connect, "UPDATE `tasks` SET `id_participant`='$newIdParticipant' WHERE `id` = '$id_task'");
-    header("Location: " . $_SERVER['HTTP_REFERER']);
+    if (mysqli_affected_rows($connect) > 0) {
+        echo "success";
+    } else {
+        echo "error";
+    }
 }
 
 ?>

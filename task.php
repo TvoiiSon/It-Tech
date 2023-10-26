@@ -17,6 +17,7 @@ $select_task = mysqli_fetch_assoc($select_task);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <title>Страница задачи/проекта - <?= $select_task['task_name'] ?></title>
 </head>
 <body>
@@ -63,10 +64,12 @@ $select_task = mysqli_fetch_assoc($select_task);
     <?php } ?>
     <br><br>
     <p>Привязать участника для выполнения задачи/проекта</p>
-    <form action="./vendor/vendor_link_participant.php" method="post">
+    <form id="link_participant" method="post">
         <input type="hidden" name="id_task" value="<?= $select_task['id'] ?>">
         <input type="text" name="login" placeholder="Логин участника" required>
         <input type="submit" value="Привязать">
     </form>
+
+    <script src="./scripts/main.js"></script>
 </body>
 </html>

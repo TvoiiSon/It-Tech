@@ -33,7 +33,7 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
     <a href="./logout.php">Выйти</a>
     <?php if($_COOKIE['role'] == 1){ ?>
         <h2>Создать пользователя</h2>
-        <form action="./vendor/vendor_create_user.php" method="post">
+        <form id="create_user" method="post">
             <input type="text" name="login" placeholder="Логин" required>
             <input type="email" name="email" placeholder="E-mail" required>
             <input type="password" name="password" placeholder="Пароль" required>
@@ -46,8 +46,8 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
         <ul>
             <?php foreach($select_users as $user) { ?>
                 <li>
-                    <span>Логин: <?= $user[3] ?></span><br>
-                    <span>E-mail: <?= $user[5] ?></span><br>
+                    <span>Логин: <?= $user[2] ?></span><br>
+                    <span>E-mail: <?= $user[4] ?></span><br>
                     <a href="./profile_user.php?id=<?= $user[0] ?>">Перейти в профиль</a>
                 </li>
             <?php } ?>
@@ -57,7 +57,7 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
         <br>
         <a href="./generate_report.php">Сформировать отчет</a>
         <h2>Создать задачу/проект</h2>
-        <form action="./vendor/vendor_create_task.php" method="post" style="display: flex; flex-direction: column; width: 350px; gap: 15px;">
+        <form method="post" id="create_task" style="display: flex; flex-direction: column; width: 350px; gap: 15px;">
             <input type="text" name="task_name" placeholder="Название задачи/проекта" required>
             <textarea name="task_description"cols="30" rows="10" placeholder="Описание задачи/проекта" required></textarea>
             <div>
@@ -137,26 +137,33 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
                 </li>
             <?php } ?>
         </ul>
-        
     <?php } ?>
-
+    
     <script>
         $.ajax({
-        url: './vendor/vendor_get_task.php',
-        method: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            console.log(data)
-            data.forEach(function(task) {
-                var dueDate = new Date(task.due_date);
-                var currentDate = new Date();
+            url: './vendor/vendor_get_task.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                data.forEach(function(task) {
+                    var dueDate = new Date(task.due_date);
+                    var currentDate = new Date();
 
-                var timeDifference = dueDate - currentDate;
-                if (timeDifference > 0) {
-                    alert(task.task_name + ' должна быть сдана в течение 2 дней!');
+                    var timeDifference = dueDate - currentDate;
+                    if (timeDifference > 0) {
+                        alert(task.task_name + ' должна быть сдана в течение 2 дней!');
+                    }
+                });
+            }
+        });
+        $(document).ready(function () {
+            $.ajax({
+                url: './vendor/vendor_send_mail.php',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
                 }
             });
-        }
         });
     </script>
     <script src="./scripts/main.js"></script>

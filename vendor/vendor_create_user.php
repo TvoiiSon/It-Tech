@@ -26,10 +26,14 @@ if(empty($select_user)) {
                             VALUES 
                             ('$role', '$id_group', '$login', '$pass_hash', '$email')
         ");
-        header("Location: ../index.php");
+        if (mysqli_affected_rows($connect) > 0) {
+            echo "success";
+        } else {
+            echo "error";
+        }
     }
 } else {
-    header("Location: " . $_SERVER['HTTP_REFERER']);
+    echo "error";
 }
 
 ?>

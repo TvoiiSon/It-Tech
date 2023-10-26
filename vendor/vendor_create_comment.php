@@ -10,10 +10,12 @@ $id_task = $_POST['id_task'];
 $id_user = $_COOKIE['id_user'];
 $comment_text = $_POST['comment_text'];
 
-$path = 'uploads/' . time() . $_FILES['pathimg']['name'];
-move_uploaded_file($_FILES['pathimg']['tmp_name'], '../' . $path);
-
-var_dump($_FILES);
+if (empty($_FILES)) {
+    $path = '';
+} else {
+    $path = 'uploads/' . time() . $_FILES['pathimg']['name'];
+    move_uploaded_file($_FILES['pathimg']['tmp_name'], '../' . $path);
+}
 
 mysqli_query($connect, "INSERT INTO `comments`
                         (`id_task`, `id_user`, `comment_text`, `file_path`)
@@ -21,5 +23,10 @@ mysqli_query($connect, "INSERT INTO `comments`
                         ('$id_task', '$id_user', '$comment_text', '$path')
 ");
 
-header("Location: " . $_SERVER['HTTP_REFERER']);
+if (mysqli_affected_rows($connect) > 0) {
+    echo "success";
+} else {
+    echo "error";
+}
+
 ?>

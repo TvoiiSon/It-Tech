@@ -23,8 +23,12 @@ if(empty($select_task)) {
                         VALUES 
                         ('$id_owner', '$task_name', '$task_description', '$start_date', '$due_date', '$category', '$priority', 'Только создано')
     ");
-    header("Location: ../index.php");
+    if (mysqli_affected_rows($connect) > 0) {
+        echo "success";
+    } else {
+        echo "error";
+    }
 } else {
-    header("Location: " . $_SERVER['HTTP_REFERER']);
+    echo "error";
 }
 ?>

@@ -11,5 +11,9 @@ $login = $_POST['login'];
 $email = $_POST['email'];
 
 mysqli_query($connect, "UPDATE `users` SET `login`='$login', `email`='$email' WHERE `id` = '$id'");
-header("Location: ../index.php");
+if (mysqli_affected_rows($connect) > 0) {
+    echo "success";
+} else {
+    echo "error";
+}
 ?>

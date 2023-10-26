@@ -10,5 +10,9 @@ $id_task = $_POST['id_task'];
 $task_comment = $_POST['task_comment'];
 
 mysqli_query($connect, "UPDATE `tasks` SET `status`='Выполнено', `comment`='$task_comment' WHERE `id` = '$id_task'");
-header("Location: ../index.php");
+if (mysqli_affected_rows($connect) > 0) {
+    echo "success";
+} else {
+    echo "error";
+}
 ?>

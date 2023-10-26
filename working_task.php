@@ -20,6 +20,7 @@ $select_comments = mysqli_fetch_all($select_comments);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <title>Работа над задачей/проектом - <?= $select_task['task_name'] ?></title>
 </head>
 <body>
@@ -58,7 +59,7 @@ $select_comments = mysqli_fetch_all($select_comments);
     <?php if($select_task["status"] != "В процессе") { ?>
         <a href="./vendor/vendor_change_status_task.php?id=<?= $id_task ?>&status=<?= $status ?>"><?= $text_link ?></a><br>
     <?php } else { ?>
-        <form action="./vendor/vendor_complete_task.php" method="post">
+        <form id="complete_task" method="post">
             <input type="hidden" name="id_task" value="<?= $id_task ?>">
             <textarea name="task_comment" cols="30" rows="10" placeholder="Комментарий к задаче"></textarea>
             <input type="submit" value="Закончить">
@@ -70,11 +71,11 @@ $select_comments = mysqli_fetch_all($select_comments);
 
     <br>
     <br>
-
-    <form action="./vendor/vendor_create_comment.php" enctype="multipart/form-data" method="post" style="display: flex; flex-direction: column; gap: 15px; width: 350px;">
+    
+    <form id="create_comment" enctype="multipart/form-data" method="post" style="display: flex; flex-direction: column; gap: 15px; width: 350px;">
         <input type="hidden" name="id_task" value="<?= $id_task ?>">
         <textarea name="comment_text" cols="30" rows="10"></textarea>
-        <input type="file" name="pathimg">
+        <input type="file" id="pathimg">
         <input type="submit" value="Оставить Комментарий">
     </form>
 
@@ -89,9 +90,11 @@ $select_comments = mysqli_fetch_all($select_comments);
                 <li>Текст: <?= $comment[3] ?></li>
             <?php } ?>
             <?php if($comment[4] != '') { ?>
-                <li><a href="http://localhost/It-Tech/<?= $comment[4] ?>">Открыть картинку</a></li>
+                <li><a href="http://localhost/hackathon/<?= $comment[4] ?>">Открыть картинку</a></li>
             <?php } ?>
         </ul>
     <?php } ?>
+
+    <script src="./scripts/main.js"></script>
 </body>
 </html>
