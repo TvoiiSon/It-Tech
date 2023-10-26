@@ -49,9 +49,9 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
                 <th width="100px">Логин</th>
                 <th width="200px">Email</th>
                 <th width="200px">Ссылка на профили</th>
-            </tr height="40px">
+            </tr>
             <?php foreach($select_users as $user) { ?>
-                <tr>
+                <tr height="40px">
                     <td><?= $user[2] ?></td>
                     <td><?= $user[4] ?></td>
                     <td><a href="./profile_user.php?id=<?= $user[0] ?>">Перейти в профиль</a></td>
