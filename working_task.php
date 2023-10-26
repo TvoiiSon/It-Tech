@@ -31,6 +31,7 @@ $title = (empty($select_working_tasks)) ? "Работа над задачей/п
         <link rel="stylesheet" href="./styles/style.css">
     </head>
     <body>
+    <?php if($_COOKIE['role'] == 2) { ?>
         <div class="container-fluid">
             <div class="row wrapper">
                 <div class="col-lg-3 wrapper-left">
@@ -189,6 +190,9 @@ $title = (empty($select_working_tasks)) ? "Работа над задачей/п
                 </div>
             </div>
         </div>
+    <?php } else { ?>
+        <h2>Даная страница не доступна для администратора</h2>
+    <?php } ?> 
         <script src="./scripts/main.js"></script>
         <script src="https://kit.fontawesome.com/61b86703fe.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

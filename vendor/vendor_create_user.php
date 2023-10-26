@@ -4,6 +4,7 @@ if(empty($_COOKIE['id_user'])) {
     $_SESSION['errLogin'] = "Авторизуйтесь!";
     header("Location: ../login.php");
 }
+if($_COOKIE['role'] == 1) {
 require_once("../db/db.php");
 
 $role = 2;
@@ -34,5 +35,7 @@ if(empty($select_user)) {
 } else {
     echo "error";
 }
-
+} else {
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+}
 ?>
