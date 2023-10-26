@@ -27,13 +27,14 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./styles/style.css">
     <title>Главная</title>
 </head>
 <body>
     <a href="./logout.php">Выйти</a>
     <?php if($_COOKIE['role'] == 1){ ?>
         <h2>Создать пользователя</h2>
-        <form id="create_user" method="post">
+        <form id="create_user" class="create_user_form" method="post">
             <input type="text" name="login" placeholder="Логин" required>
             <input type="email" name="email" placeholder="E-mail" required>
             <input type="password" name="password" placeholder="Пароль" required>
@@ -43,21 +44,26 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
         <br>
 
         <h2>Список пользователей</h2>
-        <ul>
+        <table border="1">
+            <tr height="40px">
+                <th width="100px">Логин</th>
+                <th width="200px">Email</th>
+                <th width="200px">Ссылка на профили</th>
+            </tr height="40px">
             <?php foreach($select_users as $user) { ?>
-                <li>
-                    <span>Логин: <?= $user[2] ?></span><br>
-                    <span>E-mail: <?= $user[4] ?></span><br>
-                    <a href="./profile_user.php?id=<?= $user[0] ?>">Перейти в профиль</a>
-                </li>
+                <tr>
+                    <td><?= $user[2] ?></td>
+                    <td><?= $user[4] ?></td>
+                    <td><a href="./profile_user.php?id=<?= $user[0] ?>">Перейти в профиль</a></td>
+                </tr>
             <?php } ?>
-        </ul>
+        </table>
     <?php } ?>
     <?php if($_COOKIE['role'] == 2){ ?>
         <br>
         <a href="./generate_report.php">Сформировать отчет</a>
         <h2>Создать задачу/проект</h2>
-        <form method="post" id="create_task" style="display: flex; flex-direction: column; width: 350px; gap: 15px;">
+        <form method="post" id="create_task" class="create_task_form">
             <input type="text" name="task_name" placeholder="Название задачи/проекта" required>
             <textarea name="task_description"cols="30" rows="10" placeholder="Описание задачи/проекта" required></textarea>
             <div>
@@ -112,25 +118,23 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
         </form>
 
         <h2>Список задач/проектов</h2>
-        <ul>
+        <table border="1">
+            <tr height="40px">
+                <th width="250px">Название Задачи</th>
+                <th width="250px">Перейти к задаче/проекту</th>
+            </tr>
             <?php foreach($select_tasks as $task) { ?>
-                <li>
-                    <p><?= $task[2] ?></p>
-                    <?php if($task[8] == "Выполнено") { 
-                        $id_executor = $task[7];
-                        $select_executor = mysqli_query($connect,"SELECT * FROM `users` WHERE `id`='$id_executor'");
-                        $select_tasks = mysqli_fetch_assoc($select_executor); 
-                        ?>
-                        <p>Выполнил: <strong><?= $select_tasks['login'] ?></strong></p>
-                    <?php } ?>
-                    <a href="./task.php?id=<?= $task[0] ?>">Перейти к задаче/проекту</a>
-                </li>
-                <br>
+                <tr height="40px">
+                    <td><?= $task[2] ?></td>
+                    <td>
+                        <a href="./task.php?id=<?= $task[0] ?>">Перейти к задаче/проекту</a>
+                    </td>
+                </tr>
             <?php } ?>
-        </ul>
+        </table>
 
         <h2>Задачи/проекты для выполнения</h2>
-        <ul>
+        <ul class="list_in_work">
             <?php foreach($select_working_tasks as $task) { ?> 
                 <li>
                     <a href="./working_task.php?id=<?= $task[0] ?>"><?= $task[2] ?></a><br>

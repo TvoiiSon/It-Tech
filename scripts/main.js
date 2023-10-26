@@ -159,3 +159,29 @@ $(document).ready(function () {
         });
     });
 });
+$(document).ready(function () {
+    $("#edit_profile").submit(function (event) {
+        event.preventDefault();
+
+        var formData = $(this).serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "./vendor/vendor_edit_profile_user.php", // Путь к обработчику формы
+            data: formData,
+            success: function (response) {
+                if (response === "success") {
+                    alert("Профиль пользователя успешно обновлен!");
+                    location.reload();
+                } else {
+                    alert("Что-то пошло не так. Пожалуйста, попробуйте еще раз.");
+                    location.reload();
+                }
+            },
+            error: function (error) {
+                console.error(error);
+                alert("Произошла ошибка при отправке данных на сервер.");
+            }
+        });
+    });
+});

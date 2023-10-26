@@ -1,0 +1,43 @@
+.auth_form {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    gap: 15px;
+}
+.create_user_form {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    gap: 15px;
+}
+.list_users li {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 15px;
+}
+.edit_profile_form {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    gap: 15px;
+}
+.create_task_form {
+    display: flex; 
+    flex-direction: column; 
+    width: 350px; 
+    gap: 15px;
+}
+.list_in_work li {
+    margin: 10px 0px 10px;
+}
+.wrapper {
+    display: flex;
+    gap: 100px;
+}
+.generate_report_form {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    gap: 15px;
+}
