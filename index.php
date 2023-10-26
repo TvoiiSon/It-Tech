@@ -69,14 +69,14 @@ $select_working_tasks = mysqli_fetch_all($select_working_tasks);
             </div>
             <div id="once_calendar" style="display: none">
                 <label for="single_date_start">Дата начала</label>
-                <input type="date" name="single_date_start">
+                <input type="date" name="single_date_start" id="single_date_start">
             </div>
             <div id="continuous_calendar" style="display: none">
                 <label for="start_date">Срок начала выполнения</label>
-                <input type="date" name="start_date">
+                <input type="date" name="start_date" id="start_date">
                 <br>
                 <label for="due_date">Срок конца выполнения</label>
-                <input type="date" name="due_date">
+                <input type="date" name="due_date" id="due_date">
             </div>
             <select name="category">
                 <?php foreach($select_category as $category) { ?>

@@ -114,7 +114,6 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log(response);
                 if (response === "success") {
                     alert("Комментарий успешно прикреплен!");
                     location.reload();
@@ -142,7 +141,6 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log(response);
                 if (response === "success") {
                     alert("Задача успешно выполнена!");
                     location.reload();

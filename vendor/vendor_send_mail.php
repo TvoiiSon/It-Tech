@@ -22,7 +22,7 @@ if(!empty($select_task)) {
         $to = $email;
         $subject = "Задача/проект: " . $task[2];
         $message = $task[2] . " должна быть сдана в течение 2 дней!";
-        $headers = "From: ittech@castcase.ru";
+        $headers = "From: info@ittech.ru";
 
         mail($to, $subject, $message, $headers);
     }
