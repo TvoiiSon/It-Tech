@@ -1,10 +1,11 @@
 <?php 
 session_start();
-$id = $_COOKIE['id_user'];
-if(empty($id)) {
+if(empty($_COOKIE['id_user'])) {
     $_SESSION['errLogin'] = "Авторизуйтесь!";
     header("Location: ./login.php");
 }
+
+require_once("./db/db.php");
 ?>
 <!doctype html>
 <html lang="en">
@@ -17,6 +18,7 @@ if(empty($id)) {
         <link rel="stylesheet" href="./styles/style.css">
     </head>
     <body>
+        <?php if($_COOKIE['role'] == 1) { ?>
         <div class="container-fluid">
             <div class="row wrapper">
                 <div class="col-lg-3 wrapper-left">
@@ -36,21 +38,9 @@ if(empty($id)) {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./create_task.php">
+                                        <a href="./create_user.php">
                                             <span><i class="fa-solid fa-calendar-plus"></i></span>
-                                            <span>Создать задачу/проект</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="./all_tasks.php">
-                                            <span><i class="fa-solid fa-briefcase"></i></span>
-                                            <span>Задачи/проекты в работе</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="./generate_report.php">
-                                            <span><i class="fa-solid fa-briefcase"></i></span>
-                                            <span>Сформировать отчет о работе</span>
+                                            <span>Создать пользователя</span>
                                         </a>
                                     </li>
                                     <li>
@@ -69,21 +59,28 @@ if(empty($id)) {
                         <div class="main-content-wrapper">
                             <div class="mnw-header">
                                 <div class="mnw-header-wrapper">
-                                    <span>Сформировать отчет о работе</span>
+                                    <span>Создание пользователя</span>
                                 </div>
                             </div>
                             <hr>
                             <div class="mnw-body">
-                                <h1>Формирование отчета</h1>
-                                <form action="./vendor/vendor_generate_report.php" method="post" class="generate_report_form">
-                                    <div>
-                                        <label for="start_date">Начальное число</label>
-                                        <input type="date" name="start_date" id="start_date">
+                                <h1>Форма создания</h1>
+                                <form method="post" id="create_user">
+                                    <div class="text-field text-field_floating-2">
+                                        <input class="text-field__input" type="text" id="login" name="login" placeholder="Логин">
+                                        <label class="text-field__label" for="login">Логин</label>
                                     </div>
-                                    <br>
-                                    <div>
-                                        <label for="due_date">Конечное число</label>
-                                        <input type="date" name="due_date" id="due_date">
+                                    <div class="text-field text-field_floating-2">
+                                        <input class="text-field__input" type="email" id="email" name="email" placeholder="Email">
+                                        <label class="text-field__label" for="email">Email</label>
+                                    </div>
+                                    <div class="text-field text-field_floating-2">
+                                        <input class="text-field__input" type="password" id="password" name="password" placeholder="Пароль">
+                                        <label class="text-field__label" for="password">Пароль</label>
+                                    </div>
+                                    <div class="text-field text-field_floating-2">
+                                        <input class="text-field__input" type="password" id="confirm_password" name="confirm_password" placeholder="Подтверждение Пароля">
+                                        <label class="text-field__label" for="confirm_password">Подтверждение Пароля</label>
                                     </div>
                                     <input type="submit" value="Создать" class="ctf-button">
                                 </form>
@@ -93,6 +90,10 @@ if(empty($id)) {
                 </div>
             </div>
         </div>
+        <?php } else { ?>
+            <h2>Доступно только администратору</h2>
+        <?php } ?>
+        <script src="./scripts/main.js"></script>
         <script src="https://kit.fontawesome.com/61b86703fe.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>

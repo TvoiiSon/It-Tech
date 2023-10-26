@@ -137,6 +137,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         var formData = new FormData(this);
+        console.log(formData);
 
         $.ajax({
             type: "POST",

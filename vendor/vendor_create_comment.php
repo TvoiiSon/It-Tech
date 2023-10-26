@@ -8,7 +8,7 @@ require_once("../db/db.php");
 
 $id_task = $_POST['id_task'];
 $id_user = $_COOKIE['id_user'];
-$comment_text = $_POST['comment_text'];
+$comment_text = isset($_POST['task_description']) ? $_POST['task_description'] : 'Пусто';
 
 if (empty($_FILES)) {
     $path = '';
