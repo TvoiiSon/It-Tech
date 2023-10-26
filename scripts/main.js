@@ -5,23 +5,27 @@ document.addEventListener("DOMContentLoaded", function () {
     var continuousCalendar = document.getElementById("continuous_calendar");
     var dueDateInput = document.getElementById("due_date");
 
-    form1.addEventListener("change", function () {
-        if (form1.checked) {
-            onceCalendar.style.display = "block";
-            continuousCalendar.style.display = "none";
-        }
-    });
+    if (form1) {
+        form1.addEventListener("change", function () {
+            if (form1.checked) {
+                onceCalendar.style.display = "block";
+                continuousCalendar.style.display = "none";
+            }
+        });
+    }
 
-    form2.addEventListener("change", function () {
-        if (form2.checked) {
-            onceCalendar.style.display = "none";
-            continuousCalendar.style.display = "block";
-        }
-    });
+    if (form2) {
+        form2.addEventListener("change", function () {
+            if (form2.checked) {
+                onceCalendar.style.display = "none";
+                continuousCalendar.style.display = "block";
+            }
+        });
+    }
 
-    if (form1.checked) {
+    if (form1 && form1.checked) {
         onceCalendar.style.display = "block";
-    } else if (form2.checked) {
+    } else if (form2 && form2.checked) {
         continuousCalendar.style.display = "block";
     }
 });
