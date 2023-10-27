@@ -18,6 +18,11 @@ $select_comments = mysqli_fetch_all($select_comments);
 $select_working_tasks = mysqli_query($connect, "SELECT * FROM `tasks` WHERE FIND_IN_SET('$id', REPLACE(`id_participant`, ' ', '')) AND `id`='$id_task' AND `status`!='Выполнено' ORDER BY `priority` DESC");
 $select_working_tasks = mysqli_fetch_assoc($select_working_tasks);
 
+$id_categ = $select_task["category"];
+
+$select_category = mysqli_query($connect,"SELECT * FROM `category` WHERE `id`='$id_categ'");
+$select_category = mysqli_fetch_assoc($select_category);
+
 $title = (empty($select_working_tasks)) ? "Работа над задачей/проектом - Нет задачи" : "Работа над задачей/проектом - " . $select_working_tasks['task_name'];
 ?>
 <!doctype html>
@@ -96,6 +101,7 @@ $title = (empty($select_working_tasks)) ? "Работа над задачей/п
                                             <div class="mnwt-wrapper">
                                                 <p>Название задачи/проекта: <strong><?= $select_task['task_name'] ?></strong></p>
                                                 <p>Описание задачи/проекта: <?= $select_task['task_description'] ?></p>
+                                                <p>Категория задачи/проекта: <strong><?= $select_category['category_name'] ?></strong></p>
                                                 <?php 
                                                 if (($select_task['start_date'] != "0000-00-00") && ($select_task['due_date'] != "0000-00-00")) { ?>
                                                     <p>Дата начала задачи: <strong><?= $select_task['start_date'] ?></strong></p>
