@@ -8,7 +8,7 @@ if($_COOKIE['role'] == 2) {
     require_once("../db/db.php");
 
     $id_task = $_POST['id_task'];
-    $task_comment = empty($_POST['task_comment']) ? 'Пусто' : $_POST['task_comment'];
+    $task_comment = empty($_POST['task_desc']) ? NULL : $_POST['task_desc'];
 
     mysqli_query($connect, "UPDATE `tasks` SET `status`='Выполнено', `comment`='$task_comment' WHERE `id` = '$id_task'");
     if (mysqli_affected_rows($connect) > 0) {

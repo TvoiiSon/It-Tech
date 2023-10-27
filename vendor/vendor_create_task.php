@@ -11,7 +11,7 @@ if($_COOKIE['role'] == 2) {
     $task_name = $_POST["task_name"];
     $task_description = $_POST["task_description"];
     $start_date = !empty($_POST["single_date_start"]) ? $_POST["single_date_start"] : (!empty($_POST["start_date"]) ? $_POST["start_date"] : NULL);
-    $due_date = !empty($due_date) ? $due_date : $start_date;
+    $due_date = !empty($_POST['due_date']) ? $_POST['due_date'] : $start_date;
     $category = $_POST["category"];
     $priority = $_POST["priority"];
 

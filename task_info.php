@@ -12,6 +12,9 @@ $id_owner = $_COOKIE['id_user'];
 $select_task = mysqli_query($connect, "SELECT * FROM `tasks` WHERE `id` = '$id_task' AND `id_owner`='$id_owner'");
 $select_task = mysqli_fetch_assoc($select_task);
 
+$select_comments = mysqli_query($connect,"SELECT * FROM `comments` WHERE `id_task`='$id_task'");
+$select_comments = mysqli_fetch_all($select_comments);
+
 $title = (empty($select_task)) ? "Страница задачи/проекта - Нет задачи" : "Страница задачи/проекта - " . $select_task['task_name'];
 ?>
 <!doctype html>
@@ -140,6 +143,29 @@ $title = (empty($select_task)) ? "Страница задачи/проекта -
                                     <div class="mnw-link-participant">
                                         <div class="mnwlp-wrapper">
                                             <h1>Данная задача выполнена</h1>
+                                            <?php if($select_task['comment'] != NULL) { ?>
+                                                <h2>Комментарий к задаче/проекту</h2>
+                                                <p><?= $select_task['comment'] ?></p>
+                                                <?php if(!empty($select_comments)) { ?>
+                                                    <br>
+                                                    <h2>Комментарии пользователей</h2>
+                                                    <?php foreach($select_comments as $comment) {
+                                                        $id_sender = $comment[2];
+                                                        $select_sender = mysqli_query($connect, "SELECT * FROM `users` WHERE `id` = '$id_sender'");
+                                                        $select_sender = mysqli_fetch_assoc($select_sender); ?>
+                                                        <ul>
+                                                            <li>Автор: <?= $select_sender['login'] ?></li>
+                                                            <?php if($comment[3] != '') { ?>
+                                                                <li>Текст: <?= $comment[3] ?></li>
+                                                            <?php } ?>
+                                                            <?php if($comment[4] != '') { ?>
+                                                                <li><a href="http://localhost/hackathon/<?= $comment[4] ?>">Открыть картинку</a></li>
+                                                            <?php } ?>
+                                                        </ul>
+                                                        <hr>
+                                                    <?php } ?>
+                                                <?php }?>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 <?php } ?>

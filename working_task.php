@@ -131,7 +131,7 @@ $title = (empty($select_working_tasks)) ? "Работа над задачей/п
                                                             <form method="post" id="complete_task">
                                                                 <input type="hidden" name="id_task" value="<?= $id_task ?>">
                                                                 <div class="text-field text-field_floating-2">
-                                                                    <textarea name="task_description" id="task_description" cols="80" rows="10" placeholder="Описание задачи/проекта"></textarea>
+                                                                    <textarea name="task_desc" id="task_desc" cols="80" rows="10" placeholder="Описание задачи/проекта"></textarea>
                                                                 </div>
                                                                 <input type="submit" value="Закончить" class="ctf-button">
                                                             </form>
